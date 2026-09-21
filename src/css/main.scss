@@ -1,1 +1,779 @@
-/* Your SCSS here. */
+/* ==========================================================================
+   SCSS Variables (Req 13)
+   ========================================================================== */
+$primary-color: #2b5c8f;
+$primary-hover: #1e4268;
+$accent-color: #e67e22;
+$text-dark: #2c3e50;
+$text-muted: #596a7a;
+$text-white: #ffffff;
+$text-light: #e0e6ed;
+$bg-light: #f8fafc;
+$bg-white: #ffffff;
+$bg-dark: #1a252f;
+$border-color: #e2e8f0;
+$shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.08);
+$shadow-md: 0 4px 16px rgba(0, 0, 0, 0.12);
+$shadow-lg: 0 10px 25px rgba(0, 0, 0, 0.25);
+$font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+$transition-speed: 0.3s;
+
+/* Breakpoints for responsiveness (Req 9) */
+$bp-desktop-large: 1920px;
+$bp-desktop-medium: 1366px;
+$bp-desktop-small: 1280px;
+$bp-tablet-landscape: 1024px;
+$bp-tablet-portrait: 768px;
+
+/* ==========================================================================
+   SCSS Mixins (Req 13)
+   ========================================================================== */
+@mixin flex-center($direction: column) {
+    display: flex;
+    flex-direction: $direction;
+    align-items: center;
+    justify-content: center;
+}
+
+@mixin respond-below($width) {
+    @media screen and (max-width: $width) {
+        @content;
+    }
+}
+
+/* ==========================================================================
+   Base & Reset (Req 1, 5, 8)
+   ========================================================================== */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    scroll-behavior: smooth; /* Smooth scrolling (Req 5) */
+    font-family: $font-family;
+    color: $text-dark;
+    background-color: $bg-white;
+}
+
+body {
+    line-height: 1.6;
+    overflow-x: hidden;
+
+    &.modal-open {
+        overflow: hidden;
+    }
+}
+
+/* Full-width horizontal stripes (Req 1, 8) */
+.stripe {
+    width: 100%;
+    padding: 80px 20px;
+    box-sizing: border-box;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    width: 100%;
+}
+
+.text-center {
+    text-align: center; /* Horizontally centered (Req 8) */
+}
+
+.text-white {
+    color: $text-white;
+}
+
+.text-light {
+    color: $text-light;
+}
+
+.section-title {
+    font-size: 2.2rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+    position: relative;
+    display: inline-block;
+
+    &::after {
+        content: '';
+        display: block;
+        width: 60px;
+        height: 3px;
+        background-color: $accent-color;
+        margin: 10px auto 0;
+        border-radius: 2px;
+    }
+}
+
+.section-description {
+    font-size: 1.15rem;
+    color: $text-muted;
+    max-width: 750px;
+    margin: 0 auto 2.5rem;
+}
+
+/* ==========================================================================
+   Sticky Navbar & Navbar Resizing (Req 2, 3, 4)
+   ========================================================================== */
+.header-nav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000;
+}
+
+.navbar {
+    background-color: rgba(26, 37, 47, 0.95);
+    backdrop-filter: blur(8px);
+    transition: padding $transition-speed ease, background-color $transition-speed ease;
+    padding: 1.6rem 2rem; /* Initial larger padding (Req 4) */
+    box-shadow: $shadow-md;
+
+    .nav-container {
+        max-width: 1200px;
+        margin: 0 auto;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .nav-logo {
+        color: $text-white;
+        text-decoration: none;
+        font-size: 1.6rem; /* Initial larger font (Req 4) */
+        font-weight: 700;
+        display: flex;
+        align-items: center;
+        gap: 0.6rem;
+        transition: font-size $transition-speed ease, color $transition-speed ease;
+
+        i {
+            color: $accent-color;
+        }
+
+        &:hover {
+            color: $accent-color;
+        }
+    }
+
+    .nav-menu {
+        display: flex;
+        list-style: none;
+        gap: 1.5rem;
+        align-items: center;
+
+        .nav-item {
+            margin: 0;
+
+            .nav-link {
+                color: $text-white;
+                text-decoration: none;
+                font-size: 1.1rem; /* Initial larger font (Req 4) */
+                font-weight: 500;
+                padding: 0.4rem 0.8rem;
+                border-radius: 4px;
+                transition: font-size $transition-speed ease, color $transition-speed ease, border-color $transition-speed ease, background-color $transition-speed ease;
+                border-bottom: 2px solid transparent;
+
+                &:hover {
+                    color: $accent-color;
+                }
+
+                /* Active position indicator highlight (Req 3) */
+                &.active {
+                    color: $accent-color;
+                    border-bottom-color: $accent-color;
+                    background-color: rgba(255, 255, 255, 0.08);
+                }
+            }
+        }
+    }
+
+    /* Resized smaller state on scroll (Req 4) */
+    &.scrolled {
+        padding: 0.6rem 2rem;
+        background-color: rgba(26, 37, 47, 0.98);
+
+        .nav-logo {
+            font-size: 1.25rem;
+        }
+
+        .nav-menu .nav-item .nav-link {
+            font-size: 0.95rem;
+            padding: 0.3rem 0.6rem;
+        }
+    }
+}
+
+/* ==========================================================================
+   Section 1: Hero & Centered HTML5 Background Video (Req 8, 12)
+   ========================================================================== */
+.stripe-hero {
+    position: relative;
+    overflow: hidden;
+    min-height: 100vh;
+    padding: 140px 20px 80px;
+    @include flex-center(column); /* Vertically and horizontally centered (Req 8) */
+    background-color: #0f172a;
+
+    .hero-video-bg {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        min-width: 100%;
+        min-height: 100%;
+        width: auto;
+        height: auto;
+        transform: translate(-50%, -50%);
+        object-fit: cover;
+        z-index: 0;
+        pointer-events: none;
+    }
+
+    .hero-overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(
+            rgba(15, 23, 42, 0.55),
+            rgba(15, 23, 42, 0.72)
+        );
+        z-index: 1;
+    }
+
+    .hero-content {
+        position: relative;
+        z-index: 2;
+        max-width: 900px;
+        width: 100%;
+        text-align: center;
+        margin: auto;
+    }
+
+    .hero-title {
+        font-size: 3.6rem;
+        font-weight: 800;
+        color: $text-white;
+        margin-bottom: 1rem;
+        letter-spacing: -0.5px;
+        text-shadow: 0 3px 12px rgba(0, 0, 0, 0.8);
+    }
+
+    .hero-subtitle {
+        font-size: 1.35rem;
+        color: $text-light;
+        margin-bottom: 2.2rem;
+        max-width: 780px;
+        margin-left: auto;
+        margin-right: auto;
+        text-shadow: 0 2px 8px rgba(0, 0, 0, 0.8);
+        line-height: 1.5;
+    }
+
+    .btn-hero {
+        background-color: $accent-color;
+        color: $text-white;
+        font-size: 1.1rem;
+        padding: 0.9rem 2.2rem;
+        text-decoration: none;
+        border-radius: 6px;
+        box-shadow: $shadow-md;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        transition: background-color $transition-speed ease, transform $transition-speed ease, box-shadow $transition-speed ease;
+
+        &:hover {
+            background-color: darken($accent-color, 8%);
+            transform: translateY(-3px);
+            box-shadow: $shadow-lg;
+            color: $text-white;
+        }
+    }
+}
+
+/* ==========================================================================
+   Section 2: About & Modal Trigger (Req 1, 8, 11)
+   ========================================================================== */
+.stripe-about {
+    background-color: $bg-white;
+}
+
+.btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.85rem 1.8rem;
+    font-size: 1rem;
+    font-weight: 600;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color $transition-speed ease, transform $transition-speed ease, box-shadow $transition-speed ease;
+
+    &:hover {
+        transform: translateY(-2px);
+        box-shadow: $shadow-md;
+    }
+
+    &.btn-primary {
+        background-color: $primary-color;
+        color: $text-white;
+
+        &:hover {
+            background-color: $primary-hover;
+        }
+    }
+
+    &.btn-secondary {
+        background-color: #64748b;
+        color: $text-white;
+
+        &:hover {
+            background-color: #475569;
+        }
+    }
+}
+
+/* Modal Window & CSS3 Animations (Req 11, 14) */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.65);
+    z-index: 2000;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    backdrop-filter: blur(4px);
+
+    &.open {
+        display: flex;
+    }
+
+    .modal-dialog {
+        background-color: $bg-white;
+        border-radius: 10px;
+        max-width: 580px;
+        width: 100%;
+        box-shadow: $shadow-lg;
+        overflow: hidden;
+        animation: modalFadeIn 0.35s ease-out; /* CSS3 animation (Req 14) */
+    }
+
+    .modal-header {
+        background-color: $primary-color;
+        color: $text-white;
+        padding: 1.2rem 1.6rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+
+        .modal-title {
+            font-size: 1.3rem;
+            margin: 0;
+        }
+
+        .modal-close {
+            background: none;
+            border: none;
+            color: $text-white;
+            font-size: 1.8rem;
+            cursor: pointer;
+            line-height: 1;
+            transition: color $transition-speed ease;
+
+            &:hover {
+                color: $accent-color;
+            }
+        }
+    }
+
+    .modal-body {
+        padding: 1.6rem;
+        text-align: left;
+
+        h4 {
+            color: $primary-color;
+            margin-bottom: 0.6rem;
+            margin-top: 1rem;
+
+            &:first-child {
+                margin-top: 0;
+            }
+        }
+
+        .resource-list {
+            list-style: none;
+            margin-bottom: 1rem;
+
+            li {
+                margin-bottom: 0.7rem;
+
+                a {
+                    color: $primary-color;
+                    text-decoration: none;
+                    font-weight: 500;
+                    display: inline-flex;
+                    align-items: center;
+                    gap: 0.5rem;
+                    transition: color $transition-speed ease;
+
+                    &:hover {
+                        color: $accent-color;
+                        text-decoration: underline;
+                    }
+                }
+            }
+        }
+
+        p {
+            color: $text-muted;
+            font-size: 0.95rem;
+        }
+    }
+
+    .modal-footer {
+        padding: 1rem 1.6rem;
+        background-color: $bg-light;
+        text-align: right;
+        border-top: 1px solid $border-color;
+    }
+}
+
+@keyframes modalFadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-25px) scale(0.96);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+/* ==========================================================================
+   Section 3: Carousel Slider (Req 6, 14)
+   ========================================================================== */
+.stripe-carousel {
+    background-color: $bg-light;
+
+    .carousel-container {
+        position: relative;
+        max-width: 820px;
+        margin: 0 auto;
+        border-radius: 12px;
+        overflow: hidden;
+        box-shadow: $shadow-md;
+        background-color: $bg-white;
+    }
+
+    .carousel-track {
+        position: relative;
+        width: 100%;
+        min-height: 480px;
+    }
+
+    .carousel-slide {
+        display: none;
+        width: 100%;
+
+        &.active {
+            display: block;
+            animation: slideFadeIn 0.5s ease-in-out; /* CSS3 animation (Req 14) */
+        }
+
+        .carousel-image {
+            width: 100%;
+            height: 400px;
+            object-fit: cover;
+            display: block;
+        }
+
+        .carousel-caption {
+            padding: 1.5rem;
+            background-color: $bg-white;
+            text-align: center;
+
+            h3 {
+                color: $primary-color;
+                font-size: 1.4rem;
+                margin-bottom: 0.4rem;
+            }
+
+            p {
+                color: $text-muted;
+                font-size: 1rem;
+            }
+        }
+    }
+
+    .carousel-nav-btn {
+        position: absolute;
+        top: 200px; /* Aligns with middle of 400px image */
+        transform: translateY(-50%);
+        background-color: rgba(26, 37, 47, 0.7);
+        color: $text-white;
+        border: none;
+        width: 46px;
+        height: 46px;
+        border-radius: 50%;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.2rem;
+        transition: background-color $transition-speed ease, transform $transition-speed ease;
+        z-index: 10;
+
+        &:hover {
+            background-color: $accent-color;
+            transform: translateY(-50%) scale(1.1);
+        }
+
+        &.prev {
+            left: 15px;
+        }
+
+        &.next {
+            right: 15px;
+        }
+    }
+}
+
+@keyframes slideFadeIn {
+    from {
+        opacity: 0.4;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+/* ==========================================================================
+   Section 4: Multi-Column Layout & Fixed Background Image (Req 7, 10)
+   ========================================================================== */
+.stripe-fixed-bg {
+    background-image: linear-gradient(rgba(15, 23, 42, 0.75), rgba(15, 23, 42, 0.75)), url("../assets/bancoquito.jpg");
+    background-attachment: fixed; /* Fixed-position background image (Req 10) */
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    color: $text-white;
+    padding: 100px 20px;
+}
+
+.multi-column-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr); /* 4 columns (Req 7 - 3 or more) */
+    gap: 1.8rem;
+    margin-top: 2rem;
+
+    .info-card {
+        background-color: rgba(255, 255, 255, 0.95);
+        border-radius: 10px;
+        padding: 2rem 1.5rem;
+        color: $text-dark;
+        box-shadow: $shadow-md;
+        transition: transform $transition-speed ease, box-shadow $transition-speed ease;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+
+        &:hover {
+            transform: translateY(-6px);
+            box-shadow: $shadow-lg;
+        }
+
+        .card-icon {
+            font-size: 2.4rem;
+            color: $accent-color;
+            margin-bottom: 1rem;
+        }
+
+        .card-title {
+            font-size: 1.25rem;
+            color: $primary-color;
+            margin-bottom: 0.8rem;
+        }
+
+        .card-text {
+            font-size: 0.95rem;
+            color: $text-muted;
+            line-height: 1.5;
+        }
+    }
+}
+
+/* ==========================================================================
+   Section 5: Footer & Social Media Icons (Req 1, 8, 15, 16)
+   ========================================================================== */
+.stripe-footer {
+    background-color: $bg-dark;
+    color: $text-white;
+    padding: 50px 20px 30px;
+
+    .footer-title {
+        font-size: 1.4rem;
+        margin-bottom: 0.4rem;
+    }
+
+    .footer-description {
+        font-size: 0.95rem;
+        color: $text-light;
+        margin-bottom: 1.5rem;
+    }
+
+    .social-links {
+        display: flex;
+        justify-content: center;
+        gap: 1.2rem;
+        margin-bottom: 1.8rem;
+
+        .social-icon {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 42px;
+            height: 42px;
+            border-radius: 50%;
+            background-color: rgba(255, 255, 255, 0.1);
+            color: $text-white;
+            text-decoration: none;
+            font-size: 1.1rem;
+            transition: background-color $transition-speed ease, transform $transition-speed ease;
+
+            &:hover {
+                background-color: $accent-color;
+                transform: translateY(-3px);
+            }
+        }
+    }
+
+    .footer-copy {
+        font-size: 0.85rem;
+        color: #718096;
+        border-top: 1px solid rgba(255, 255, 255, 0.1);
+        padding-top: 1.2rem;
+        max-width: 600px;
+        margin: 0 auto;
+    }
+}
+
+/* ==========================================================================
+   Responsiveness Breakpoints (Req 9)
+   Tested across 1920x1080, 1366x768, 1280x720, 1024x768, 768x1024
+   ========================================================================== */
+@include respond-below($bp-tablet-landscape) {
+    .multi-column-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1.5rem;
+    }
+
+    .hero-title {
+        font-size: 2.5rem;
+    }
+
+    .carousel-slide .carousel-image {
+        height: 350px;
+    }
+}
+
+@include respond-below($bp-tablet-portrait) {
+    .navbar {
+        padding: 0.9rem 1.2rem;
+
+        .nav-container {
+            flex-direction: row;
+            justify-content: space-between;
+        }
+
+        .nav-logo {
+            font-size: 1.3rem;
+        }
+
+        .nav-menu {
+            gap: 0.6rem;
+
+            .nav-item .nav-link {
+                font-size: 0.9rem;
+                padding: 0.25rem 0.5rem;
+            }
+        }
+
+        &.scrolled {
+            padding: 0.5rem 1.2rem;
+
+            .nav-logo {
+                font-size: 1.15rem;
+            }
+
+            .nav-menu .nav-item .nav-link {
+                font-size: 0.85rem;
+            }
+        }
+    }
+
+    .stripe-hero {
+        padding-top: 130px;
+
+        .hero-title {
+            font-size: 2.3rem;
+        }
+
+        .hero-subtitle {
+            font-size: 1.15rem;
+        }
+    }
+
+    .multi-column-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1.2rem;
+    }
+
+    .carousel-slide .carousel-image {
+        height: 320px;
+    }
+
+    .carousel-nav-btn {
+        top: 160px;
+    }
+}
+
+@media screen and (max-width: 580px) {
+    .navbar .nav-container {
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+
+    .navbar .nav-menu {
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+
+    .multi-column-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .carousel-slide .carousel-image {
+        height: 240px;
+    }
+
+    .carousel-nav-btn {
+        top: 120px;
+    }
+
+    .stripe-fixed-bg {
+        background-attachment: scroll;
+    }
+}

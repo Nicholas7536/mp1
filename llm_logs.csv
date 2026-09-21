@@ -1,2 +1,87 @@
-example_chatgpt_log_link1
-example_bing_chat_log_link2
+Log_Type,File_Path,Description
+"Conversation Log","llm_logs/conversation_log.md","Full conversation transcript with Google Antigravity (Gemini 3.8 Flash) covering initial requirements, grilling Q&A, and code generation"
+"Implementation Plan","llm_logs/implementation_plan.md","Minimalist implementation plan strictly covering all 16 requirements without bloat"
+"Walkthrough","llm_logs/walkthrough.md","Complete walkthrough documenting code changes, feature verification, and rubric rule compliance"
+
+# ==============================================================================
+# CS409 MP1 LLM LOGS & ARTIFACTS ATTACHMENT
+# ==============================================================================
+# Model: Google Antigravity (Gemini 3.8 Flash)
+# Course: CS409 - Web Programming (UIUC)
+# Date: 2026-09-21
+# Repository: Nicholas7536/mp1
+# ==============================================================================
+
+# ------------------------------------------------------------------------------
+# 1. CONVERSATION TRANSCRIPT
+# ------------------------------------------------------------------------------
+# --- User Prompt 1 ---
+# create a plan to build a website, by only implementing features asked for in readme file.
+# do not plan to make extra tml, css, inlines or any crazy stuff. only the minimum that is asked there.
+# then grill me what the website will be about.
+# my starting point is i want to showcase quito ecuador. for the video and image requirement i have put a photo and video of pichinch volcano in quito.
+#
+# --- Assistant Response 1 (Grilling Questions) ---
+# 1. Vibe & Angle: Official tourism guide, adventure/nature travel landing page, or cultural/historical exploration?
+# 2. The 3 Carousel Slides (Req 6): What 3 specific places or subjects should be featured?
+# 3. The 3-Column Highlights (Req 7): What 3 topics should these columns represent?
+# 4. The Modal Popup (Req 11): What specific additional content should appear when the modal opens?
+# 5. Fixed Background (Req 10) & Video (Req 12): How should bancoquito.jpg and pichinchavideo.mp4 be displayed?
+#
+# --- User Prompt 2 (Grilling Responses) ---
+# 1. I'd like it for to be informational/showcase about it to spread awareness of how awesome and beautiful quito and pichincha is.
+# 2. Teleferiqo, The historical neighborhood/churches, and el parque metropolitano. i have included photos in assets folder named appropriately to each one.
+# 3. just quick fun facts about quito, elevation, temperature, climate, historical center, other fun facts, etc.
+# 4. modal for resources and info - link unesco and other info websites, ecuador tourism, etc.
+# 5. bancoquito should be used like so "A section which uses a fixed-position background image ". Photo slightly darkened, and should be bg of a section, probably the background where the caraousel can be or multi column section.
+# 6. the video section can be first, you can have a title page there and the video be shown plainly below it in z-background.
+#
+# --- Assistant Response 2 & Implementation ---
+# - Inspected src/assets/ to verify: bancoquito.jpg, metropolitano.jpg, quitohistorical.jpg, teleferico.jpeg, pichinchavideo.mp4.
+# - Updated implementation_plan.md to lock in agreed design choices.
+# - Implemented src/index.html (HTML5 structure, full-width stripes, video tag, modal, carousel, 4-column cards, FontAwesome icons).
+# - Implemented src/css/main.scss (SCSS variables, mixins, sticky navbar resizing, position indicator style, fixed background, CSS3 keyframe animations, responsive breakpoints for 1920x1080 down to 768x1024).
+# - Implemented src/js/main.js (Vanilla ES6, scroll listener for navbar shrink and position indicator with bottom-page edge case, smooth scrolling, carousel prev/next logic, modal open/close without inline styles).
+# - Ran build: npm run build (webpack compiled successfully in 3147ms with 0 errors).
+# - Verified zero occurrences of inline style="", zero inline <script>, zero layout tables.
+# - Generated walkthrough.md.
+#
+# --- Turn 4: Looping Background Video for Hero Section ---
+# - User requested Pichincha video loop in the background behind Quito title and subtitle.
+# - Updated src/index.html with <video class="hero-video-bg" autoplay loop muted playsinline>.
+# - Updated src/css/main.scss with full-bleed object-fit cover positioning and dark gradient overlay.
+# - Re-verified build (webpack compiled with 0 errors).
+# - Maintained compliance with Requirement 8 (centering) and Requirement 12 (HTML5 video).
+
+# ------------------------------------------------------------------------------
+# 2. IMPLEMENTATION PLAN (SUMMARY OF REQ 1-16)
+# ------------------------------------------------------------------------------
+# Req 1: Full-width horizontal stripes (Header, Hero, About, Carousel, Facts, Footer)
+# Req 2: Sticky navbar pinned to window top (position: fixed; top: 0; z-index: 1000)
+# Req 3: Position indicator with last-item highlight at bottom of page
+# Req 4: Navbar resizing: larger padding and font at top, shrinks on scroll
+# Req 5: Smooth scrolling with navbar height offset calculation
+# Req 6: Carousel with 3 slides (Teleferiqo, Historic Center, Parque Metropolitano) and side nav arrows
+# Req 7: Multi-column layout with 4 responsive cards (Elevation, Climate, UNESCO, Volcano)
+# Req 8: Horizontal centering across sections; vertically centered hero content
+# Req 9: Responsiveness across 1920x1080, 1366x768, 1280x720, 1024x768, 768x1024
+# Req 10: Fixed-position background image (bancoquito.jpg with background-attachment: fixed)
+# Req 11: Modal popup with UNESCO, Quito Turismo, and Ecuador Travel resources
+# Req 12: HTML5 <video> tag embedding assets/pichinchavideo.mp4 with native controls
+# Req 13: SCSS variables, mixins, and nesting in src/css/main.scss
+# Req 14: CSS3 animations (@keyframes modalFadeIn, @keyframes slideFadeIn, hover transitions)
+# Req 15: Scalable vector icons via FontAwesome 6 (fa-mountain, fa-cloud-sun, etc.)
+# Req 16: Social media icons in footer (Facebook, Instagram, X/Twitter, YouTube)
+
+# ------------------------------------------------------------------------------
+# 3. WALKTHROUGH & VERIFICATION (RESULTS)
+# ------------------------------------------------------------------------------
+# - Build: npm run build -> webpack 5.110.1 compiled successfully with 0 errors
+# - Rule 3 (No libraries): Passed (Pure Vanilla ES6 and SCSS)
+# - Rule 4 (No inline styles): Passed (0 occurrences of style="")
+# - Rule 5 (No inline scripts): Passed (0 inline script tags)
+# - Rule 6 (No layout tables): Passed (CSS Grid and Flexbox used)
+# - Individual file copies saved in:
+#   * llm_logs/conversation_log.md
+#   * llm_logs/implementation_plan.md
+#   * llm_logs/walkthrough.md
